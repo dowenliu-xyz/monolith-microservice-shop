@@ -29,5 +29,5 @@ func (m *MemoryRepository) ByID(id orders.ID) (*orders.Order, error) {
 		}
 	}
 
-	return nil, orders.ErrNotFound
+	return nil, orders.NewErrNotFound()
 }

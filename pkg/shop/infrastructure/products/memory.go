@@ -31,7 +31,7 @@ func (m *MemoryRepository) ByID(id products.ID) (*products.Product, error) {
 		}
 	}
 
-	return nil, products.ErrNotFound
+	return nil, products.NewErrNotFound()
 }
 
 func (m *MemoryRepository) AllProducts() ([]products.Product, error) {

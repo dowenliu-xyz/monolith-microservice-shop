@@ -1,11 +1,31 @@
 package price
 
-import "errors"
+import (
+	"errors"
+
+	pkg_errors "github.com/pkg/errors"
+)
 
 var (
-	ErrPriceTooLow     = errors.New("price must be greater than 0")
-	ErrInvalidCurrency = errors.New("invalid currency")
+	errPriceTooLow     = errors.New("price must be greater than 0")
+	errInvalidCurrency = errors.New("invalid currency")
 )
+
+func NewErrPriceTooLow() error {
+	return pkg_errors.WithStack(errPriceTooLow)
+}
+
+func IsErrPriceTooLow(err error) bool {
+	return errors.Is(err, errPriceTooLow)
+}
+
+func NewErrInvalidCurrency() error {
+	return pkg_errors.WithStack(errInvalidCurrency)
+}
+
+func IsErrInvalidCurrency(err error) bool {
+	return errors.Is(err, errInvalidCurrency)
+}
 
 type Price struct {
 	cents    uint
@@ -14,10 +34,10 @@ type Price struct {
 
 func NewPrice(cents uint, currency string) (Price, error) {
 	if cents <= 0 {
-		return Price{}, ErrPriceTooLow
+		return Price{}, NewErrPriceTooLow()
 	}
 	if len(currency) != 3 {
-		return Price{}, ErrInvalidCurrency
+		return Price{}, NewErrInvalidCurrency()
 	}
 
 	return Price{cents, currency}, nil

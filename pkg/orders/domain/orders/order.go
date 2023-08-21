@@ -1,10 +1,18 @@
 package orders
 
-import "errors"
+import (
+	"errors"
+
+	pkg_errors "github.com/pkg/errors"
+)
 
 type ID string
 
-var ErrEmptyOrderID = errors.New("empty order id")
+var errEmptyOrderID = errors.New("empty order id")
+
+func IsErrEmptyOrderID(err error) bool {
+	return errors.Is(err, errEmptyOrderID)
+}
 
 type Order struct {
 	id      ID
@@ -36,7 +44,7 @@ func (o *Order) MarkAsPaid() {
 
 func NewOrder(id ID, product Product, address Address) (*Order, error) {
 	if len(id) == 0 {
-		return nil, ErrEmptyOrderID
+		return nil, pkg_errors.WithStack(errEmptyOrderID)
 	}
 
 	return &Order{id, product, address, false}, nil

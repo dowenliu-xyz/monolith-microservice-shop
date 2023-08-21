@@ -46,7 +46,7 @@ func (h HTTPClient) ProductByID(id orders.ProductID) (orders.Product, error) {
 func OrderProductFromHTTP(shopProduct shop_http.ProductView) (orders.Product, error) {
 	productPrice, err := OrderProductPriceFromHTTP(shopProduct.Price)
 	if err != nil {
-		return orders.Product{}, errors.Wrap(err, "cannot decode price")
+		return orders.Product{}, errors.WithMessage(err, "cannot decode price")
 	}
 
 	return orders.NewProduct(orders.ProductID(shopProduct.ID), shopProduct.Name, productPrice)

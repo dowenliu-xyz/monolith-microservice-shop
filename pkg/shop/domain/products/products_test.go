@@ -21,7 +21,7 @@ func TestNewProduct(t *testing.T) {
 		Description string
 		Price       price.Price
 
-		ExpectedErr error
+		ExpectedErr assert.ErrorAssertionFunc
 	}{
 		{
 			TestName:    "valid",
@@ -29,6 +29,7 @@ func TestNewProduct(t *testing.T) {
 			Name:        "foo",
 			Description: "bar",
 			Price:       testPrice,
+			ExpectedErr: assert.NoError,
 		},
 		{
 			TestName:    "empty_id",
@@ -37,7 +38,9 @@ func TestNewProduct(t *testing.T) {
 			Description: "bar",
 			Price:       testPrice,
 
-			ExpectedErr: products.ErrEmptyID,
+			ExpectedErr: func(t assert.TestingT, err error, i ...interface{}) bool {
+				return assert.True(t, products.IsErrEmptyID(err), i...)
+			},
 		},
 		{
 			TestName:    "empty_name",
@@ -46,14 +49,16 @@ func TestNewProduct(t *testing.T) {
 			Description: "bar",
 			Price:       testPrice,
 
-			ExpectedErr: products.ErrEmptyName,
+			ExpectedErr: func(t assert.TestingT, err error, i ...interface{}) bool {
+				return assert.True(t, products.IsErrEmptyName(err), i...)
+			},
 		},
 	}
 
 	for _, c := range testCases {
 		t.Run(c.TestName, func(t *testing.T) {
 			_, err := products.NewProduct(c.ID, c.Name, c.Description, c.Price)
-			assert.ErrorIs(t, err, c.ExpectedErr)
+			c.ExpectedErr(t, err)
 		})
 	}
 }

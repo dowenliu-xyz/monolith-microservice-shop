@@ -1,8 +1,20 @@
 package orders
 
-import "errors"
+import (
+	"errors"
 
-var ErrNotFound = errors.New("order not found")
+	pkg_errors "github.com/pkg/errors"
+)
+
+var errNotFound = errors.New("order not found")
+
+func NewErrNotFound() error {
+	return pkg_errors.WithStack(errNotFound)
+}
+
+func IsErrNotFound(err error) bool {
+	return errors.Is(err, errNotFound)
+}
 
 type Repository interface {
 	Save(*Order) error

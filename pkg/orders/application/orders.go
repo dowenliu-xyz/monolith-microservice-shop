@@ -52,25 +52,25 @@ func (s OrdersService) PlaceOrder(cmd PlaceOrderCommand) error {
 		cmd.Address.Country,
 	)
 	if err != nil {
-		return errors.Wrap(err, "invalid address")
+		return errors.WithMessage(err, "invalid address")
 	}
 
 	product, err := s.productsService.ProductByID(cmd.ProductID)
 	if err != nil {
-		return errors.Wrap(err, "cannot get product")
+		return errors.WithMessage(err, "cannot get product")
 	}
 
 	newOrder, err := orders.NewOrder(cmd.OrderID, product, address)
 	if err != nil {
-		return errors.Wrap(err, "cannot create order")
+		return errors.WithMessage(err, "cannot create order")
 	}
 
 	if err := s.ordersRepository.Save(newOrder); err != nil {
-		return errors.Wrap(err, "cannot save order")
+		return errors.WithMessage(err, "cannot save order")
 	}
 
 	if err := s.paymentsService.InitializeOrderPayment(newOrder.ID(), newOrder.Product().Price()); err != nil {
-		return errors.Wrap(err, "cannot initialize payment")
+		return errors.WithMessage(err, "cannot initialize payment")
 	}
 
 	log.Printf("order %s placed", cmd.OrderID)
@@ -85,13 +85,13 @@ type MarkOrderAsPaidCommand struct {
 func (s OrdersService) MarkOrderAsPaid(cmd MarkOrderAsPaidCommand) error {
 	o, err := s.ordersRepository.ByID(cmd.OrderID)
 	if err != nil {
-		return errors.Wrapf(err, "cannot get order %s", cmd.OrderID)
+		return errors.WithMessagef(err, "cannot get order %s", cmd.OrderID)
 	}
 
 	o.MarkAsPaid()
 
 	if err := s.ordersRepository.Save(o); err != nil {
-		return errors.Wrap(err, "cannot save order")
+		return errors.WithMessagef(err, "cannot save order")
 	}
 
 	log.Printf("marked order %s as paid", cmd.OrderID)
@@ -102,7 +102,7 @@ func (s OrdersService) MarkOrderAsPaid(cmd MarkOrderAsPaidCommand) error {
 func (s OrdersService) OrderByID(id orders.ID) (orders.Order, error) {
 	o, err := s.ordersRepository.ByID(id)
 	if err != nil {
-		return orders.Order{}, errors.Wrapf(err, "cannot get order %s", id)
+		return orders.Order{}, errors.WithMessagef(err, "cannot get order %s", id)
 	}
 
 	return *o, nil

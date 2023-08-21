@@ -24,7 +24,7 @@ func TestNewOrder_empty_id(t *testing.T) {
 	orderProduct, orderAddress := createOrderContent(t)
 
 	_, err := orders.NewOrder("", orderProduct, orderAddress)
-	assert.EqualValues(t, orders.ErrEmptyOrderID, err)
+	assert.True(t, orders.IsErrEmptyOrderID(err))
 }
 
 func TestOrder_MarkAsPaid(t *testing.T) {

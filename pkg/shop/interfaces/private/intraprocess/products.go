@@ -34,7 +34,7 @@ func NewProductInterface(repo products.Repository) ProductInterface {
 func (i ProductInterface) ProductByID(id string) (Product, error) {
 	domainProduct, err := i.repo.ByID(products.ID(id))
 	if err != nil {
-		return Product{}, errors.Wrap(err, "cannot get product")
+		return Product{}, errors.WithMessage(err, "cannot get product")
 	}
 
 	return ProductFromDomainProduct(*domainProduct), nil

@@ -1,6 +1,6 @@
 package orders
 
-import "errors"
+import "github.com/pkg/errors"
 
 type Address struct {
 	name     string

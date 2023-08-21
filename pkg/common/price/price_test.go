@@ -13,37 +13,44 @@ func TestNewPrice(t *testing.T) {
 		Name        string
 		Cents       uint
 		Currency    string
-		ExpectedErr error
+		ExpectedErr assert.ErrorAssertionFunc
 	}{
 		{
-			Name:     "valid",
-			Cents:    10,
-			Currency: "EUR",
-		},
-		{
-			Name:        "invalid_cents",
-			Cents:       0,
+			Name:        "valid",
+			Cents:       10,
 			Currency:    "EUR",
-			ExpectedErr: price.ErrPriceTooLow,
+			ExpectedErr: assert.NoError,
 		},
 		{
-			Name:        "empty_currency",
-			Cents:       10,
-			Currency:    "",
-			ExpectedErr: price.ErrInvalidCurrency,
+			Name:     "invalid_cents",
+			Cents:    0,
+			Currency: "EUR",
+			ExpectedErr: func(t assert.TestingT, err error, i ...interface{}) bool {
+				return assert.True(t, price.IsErrPriceTooLow(err), i...)
+			},
 		},
 		{
-			Name:        "invalid_currency_length",
-			Cents:       10,
-			Currency:    "US",
-			ExpectedErr: price.ErrInvalidCurrency,
+			Name:     "empty_currency",
+			Cents:    10,
+			Currency: "",
+			ExpectedErr: func(t assert.TestingT, err error, i ...interface{}) bool {
+				return assert.True(t, price.IsErrInvalidCurrency(err), i...)
+			},
+		},
+		{
+			Name:     "invalid_currency_length",
+			Cents:    10,
+			Currency: "US",
+			ExpectedErr: func(t assert.TestingT, err error, i ...interface{}) bool {
+				return assert.True(t, price.IsErrInvalidCurrency(err), i...)
+			},
 		},
 	}
 
 	for _, c := range testCases {
 		t.Run(c.Name, func(t *testing.T) {
 			_, err := price.NewPrice(c.Cents, c.Currency)
-			assert.ErrorIs(t, err, c.ExpectedErr)
+			c.ExpectedErr(t, err)
 		})
 	}
 }
