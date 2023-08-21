@@ -3,8 +3,9 @@ package price_test
 import (
 	"testing"
 
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
 	"github.com/stretchr/testify/assert"
+
+	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
 )
 
 func TestNewPrice(t *testing.T) {
@@ -42,7 +43,7 @@ func TestNewPrice(t *testing.T) {
 	for _, c := range testCases {
 		t.Run(c.Name, func(t *testing.T) {
 			_, err := price.NewPrice(c.Cents, c.Currency)
-			assert.EqualValues(t, c.ExpectedErr, err)
+			assert.ErrorIs(t, err, c.ExpectedErr)
 		})
 	}
 }

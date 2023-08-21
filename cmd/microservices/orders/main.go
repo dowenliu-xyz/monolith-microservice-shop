@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/go-chi/chi"
+
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/cmd"
 	orders_app "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/application"
 	orders_infra_orders "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/infrastructure/orders"
@@ -13,7 +15,6 @@ import (
 	orders_infra_product "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/infrastructure/shop"
 	orders_private_http "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/interfaces/private/http"
 	orders_public_http "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/interfaces/public/http"
-	"github.com/go-chi/chi"
 )
 
 func main() {

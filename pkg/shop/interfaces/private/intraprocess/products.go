@@ -1,9 +1,10 @@
 package intraprocess
 
 import (
+	"github.com/pkg/errors"
+
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/domain/products"
-	"github.com/pkg/errors"
 )
 
 type Product struct {

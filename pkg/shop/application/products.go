@@ -1,9 +1,10 @@
 package application
 
 import (
+	"github.com/pkg/errors"
+
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/domain/products"
-	"github.com/pkg/errors"
 )
 
 type productReadModel interface {
@@ -32,12 +33,12 @@ type AddProductCommand struct {
 }
 
 func (s ProductsService) AddProduct(cmd AddProductCommand) error {
-	price, err := price.NewPrice(cmd.PriceCents, cmd.PriceCurrency)
+	productPrice, err := price.NewPrice(cmd.PriceCents, cmd.PriceCurrency)
 	if err != nil {
 		return errors.Wrap(err, "invalid product price")
 	}
 
-	p, err := products.NewProduct(products.ID(cmd.ID), cmd.Name, cmd.Description, price)
+	p, err := products.NewProduct(products.ID(cmd.ID), cmd.Name, cmd.Description, productPrice)
 	if err != nil {
 		return errors.Wrap(err, "cannot create product")
 	}

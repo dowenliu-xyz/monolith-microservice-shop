@@ -5,13 +5,14 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/go-chi/chi"
+
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/cmd"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop"
 	shop_app "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/application"
 	shop_infra_product "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/infrastructure/products"
 	shop_interfaces_private_http "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/interfaces/private/http"
 	shop_interfaces_public_http "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/interfaces/public/http"
-	"github.com/go-chi/chi"
 )
 
 func main() {
@@ -45,7 +46,7 @@ func createShopMicroservice() *chi.Mux {
 
 	r := cmd.CreateRouter()
 
-	shop_interfaces_public_http.AddRoutes(r, shopProductRepo)
+	shop_interfaces_public_http.AddRoutes(r, shopProductRepo) // 这里同样也能用 shopProductsService。本质是一样的。
 	shop_interfaces_private_http.AddRoutes(r, shopProductRepo)
 
 	return r

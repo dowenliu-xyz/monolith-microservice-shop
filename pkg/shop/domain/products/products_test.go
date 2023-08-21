@@ -3,9 +3,10 @@ package products_test
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/domain/products"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestNewProduct(t *testing.T) {
@@ -52,7 +53,7 @@ func TestNewProduct(t *testing.T) {
 	for _, c := range testCases {
 		t.Run(c.TestName, func(t *testing.T) {
 			_, err := products.NewProduct(c.ID, c.Name, c.Description, c.Price)
-			assert.EqualValues(t, c.ExpectedErr, err)
+			assert.ErrorIs(t, err, c.ExpectedErr)
 		})
 	}
 }

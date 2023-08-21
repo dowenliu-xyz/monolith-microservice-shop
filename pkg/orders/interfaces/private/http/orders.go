@@ -3,11 +3,12 @@ package http
 import (
 	"net/http"
 
+	"github.com/go-chi/chi"
+	"github.com/go-chi/render"
+
 	common_http "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/http"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/application"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/domain/orders"
-	"github.com/go-chi/chi"
-	"github.com/go-chi/render"
 )
 
 func AddRoutes(router *chi.Mux, service application.OrdersService, repository orders.Repository) {

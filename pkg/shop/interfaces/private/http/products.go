@@ -3,11 +3,12 @@ package http
 import (
 	"net/http"
 
+	"github.com/go-chi/chi"
+	"github.com/go-chi/render"
+
 	common_http "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/http"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
 	products_domain "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/domain/products"
-	"github.com/go-chi/chi"
-	"github.com/go-chi/render"
 )
 
 func AddRoutes(router *chi.Mux, repo products_domain.Repository) {
@@ -16,7 +17,7 @@ func AddRoutes(router *chi.Mux, repo products_domain.Repository) {
 }
 
 type productsResource struct {
-	repo products_domain.Repository
+	repo products_domain.Repository // TODO interface 层跨过 application 层，直接调用 domain 层，不是个好姿势
 }
 
 type ProductView struct {

@@ -25,6 +25,12 @@ func (h HTTPClient) MarkOrderAsPaid(orderID string) error {
 	if err != nil {
 		return errors.Wrap(err, "request to orders failed")
 	}
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 
-	return resp.Body.Close()
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return errors.Errorf("request to orders failed with status %d", resp.StatusCode)
+	}
+	return nil
 }

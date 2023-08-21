@@ -18,15 +18,15 @@ func (o *Order) ID() ID {
 	return o.id
 }
 
-func (o Order) Product() Product {
+func (o *Order) Product() Product {
 	return o.product
 }
 
-func (o Order) Address() Address {
+func (o *Order) Address() Address {
 	return o.address
 }
 
-func (o Order) Paid() bool {
+func (o *Order) Paid() bool {
 	return o.paid
 }
 

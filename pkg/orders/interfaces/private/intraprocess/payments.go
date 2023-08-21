@@ -14,5 +14,5 @@ func NewOrdersInterface(service application.OrdersService) OrdersInterface {
 }
 
 func (p OrdersInterface) MarkOrderAsPaid(orderID string) error {
-	return p.service.MarkOrderAsPaid(application.MarkOrderAsPaidCommand{orders.ID(orderID)})
+	return p.service.MarkOrderAsPaid(application.MarkOrderAsPaidCommand{OrderID: orders.ID(orderID)})
 }

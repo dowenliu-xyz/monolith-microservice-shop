@@ -10,7 +10,7 @@ type Address struct {
 	country  string
 }
 
-func NewAddress(name string, street string, city string, postCode string, country string) (Address, error) {
+func NewAddress(name, street, city, postCode, country string) (Address, error) {
 	if len(name) == 0 {
 		return Address{}, errors.New("empty name")
 	}

@@ -3,9 +3,10 @@ package intraprocess
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/domain/products"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestProductFromDomainProduct(t *testing.T) {

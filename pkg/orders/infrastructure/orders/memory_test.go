@@ -3,10 +3,11 @@ package orders_test
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
 	order_domain "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/domain/orders"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/infrastructure/orders"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestMemoryRepository(t *testing.T) {
@@ -26,7 +27,6 @@ func TestMemoryRepository(t *testing.T) {
 	assert.NoError(t, err)
 	assert.EqualValues(t, *order2, *repoOrder2)
 }
-
 
 func addOrder(t *testing.T, repo *orders.MemoryRepository, id string) *order_domain.Order {
 	productPrice, err := price.NewPrice(10, "USD")

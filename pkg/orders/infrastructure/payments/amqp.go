@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"log"
 
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
-	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/domain/orders"
-	payments_amqp_interface "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/payments/interfaces/amqp"
 	"github.com/pkg/errors"
 	"github.com/streadway/amqp"
+
+	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
+	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/domain/orders"
+	payments_amqp "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/payments/interfaces/amqp"
 )
 
 type AMQPService struct {
@@ -43,9 +44,9 @@ func NewAMQPService(url, queueName string) (AMQPService, error) {
 }
 
 func (i AMQPService) InitializeOrderPayment(id orders.ID, price price.Price) error {
-	order := payments_amqp_interface.OrderToProcessView{
+	order := payments_amqp.OrderToProcessView{
 		ID: string(id),
-		Price: payments_amqp_interface.PriceView{
+		Price: payments_amqp.PriceView{
 			Cents:    price.Cents(),
 			Currency: price.Currency(),
 		},

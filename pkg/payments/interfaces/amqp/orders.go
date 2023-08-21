@@ -5,9 +5,10 @@ import (
 	"encoding/json"
 	"log"
 
+	"github.com/streadway/amqp"
+
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/payments/application"
-	"github.com/streadway/amqp"
 )
 
 type OrderToProcessView struct {
@@ -101,7 +102,6 @@ func (o PaymentsInterface) processMsg(msg amqp.Delivery) error {
 	orderPrice, err := price.NewPrice(orderView.Price.Cents, orderView.Price.Currency)
 	if err != nil {
 		log.Printf("cannot decode price for msg %s: %s", string(msg.Body), err)
-
 	}
 
 	return o.service.InitializeOrderPayment(orderView.ID, orderPrice)

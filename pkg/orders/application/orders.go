@@ -3,9 +3,10 @@ package application
 import (
 	"log"
 
+	"github.com/pkg/errors"
+
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/orders/domain/orders"
-	"github.com/pkg/errors"
 )
 
 type productsService interface {

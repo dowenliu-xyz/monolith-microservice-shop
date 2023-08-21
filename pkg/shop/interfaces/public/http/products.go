@@ -3,11 +3,12 @@ package http
 import (
 	"net/http"
 
+	"github.com/go-chi/chi"
+	"github.com/go-chi/render"
+
 	common_http "github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/http"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/common/price"
 	"github.com/ThreeDotsLabs/monolith-microservice-shop/pkg/shop/domain/products"
-	"github.com/go-chi/chi"
-	"github.com/go-chi/render"
 )
 
 func AddRoutes(router *chi.Mux, productsReadModel productsReadModel) {
@@ -42,14 +43,14 @@ type productsResource struct {
 }
 
 func (p productsResource) GetAll(w http.ResponseWriter, r *http.Request) {
-	products, err := p.readModel.AllProducts()
+	allProducts, err := p.readModel.AllProducts()
 	if err != nil {
 		_ = render.Render(w, r, common_http.ErrInternal(err))
 		return
 	}
 
 	view := []productView{}
-	for _, product := range products {
+	for _, product := range allProducts {
 		view = append(view, productView{
 			string(product.ID()),
 			product.Name(),

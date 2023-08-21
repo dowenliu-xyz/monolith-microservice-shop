@@ -22,7 +22,7 @@ func (m *MemoryRepository) Save(orderToSave *orders.Order) error {
 	return nil
 }
 
-func (m MemoryRepository) ByID(id orders.ID) (*orders.Order, error) {
+func (m *MemoryRepository) ByID(id orders.ID) (*orders.Order, error) {
 	for _, p := range m.orders {
 		if p.ID() == id {
 			return &p, nil
