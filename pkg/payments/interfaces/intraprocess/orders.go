@@ -35,8 +35,8 @@ func (o PaymentsInterface) Run() {
 	}()
 
 	for order := range o.orders {
+		o.orderProcessingWg.Add(1)
 		go func(orderToPay OrderToProcess) {
-			o.orderProcessingWg.Add(1)
 			defer o.orderProcessingWg.Done()
 
 			if err := o.service.InitializeOrderPayment(orderToPay.ID, orderToPay.Price); err != nil {
