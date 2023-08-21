@@ -1,12 +1,6 @@
 qa:
     # "Errors unhandled" check is made by errcheck
-	gometalinter \
-	    --vendor \
-	    --deadline=60s \
-	    --exclude="composite literal uses unkeyed fields" \
-	    --exclude="should have comment or be unexported" \
-	    --exclude="Errors unhandled" \
-	    ./...
+	golangci-lint run
 	go-cleanarch
 
 up:
